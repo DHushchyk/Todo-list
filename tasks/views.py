@@ -52,10 +52,6 @@ class TagDeleteView(generic.DeleteView):
 
 def confirm_undo_task(request, pk):
     task = Task.objects.get(id=pk)
-    if task.done:
-        task.done = False
-        task.save()
-    else:
-        task.done = True
-        task.save()
+    task.done = not task.done
+    task.save()
     return HttpResponseRedirect(reverse_lazy("tasks:task-list"))
